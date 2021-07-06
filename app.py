@@ -40,27 +40,27 @@ def main():
     st.header("Voice Classification using Hierarichal Clustering Algorithm")
     
 
-    meanfreq = st.number_input('Insert Meanfreq',0,1, format="%.4f")
+    meanfreq = st.text_input('Insert Meanfreq')
 
-    sd = st.number_input('Insert SD',0,1, format="%.4f")
+    sd = st.text_input('Insert SD')
 
-    median =  st.number_input('Insert median',0,1, format="%.4f")
+    median =  st.text_input('Insert median')
 
-    IQR  = st.number_input('Insert IQR',0,1, format="%.4f")
+    IQR  = st.text_input('Insert IQR')
 
-    skew   = st.number_input('Insert skew',0,100, format="%.4f")
+    skew   = st.text_input('Insert skew')
 
-    kurt  = st.number_input('Insert kurt',0,10, format="%.4f")
+    kurt  = st.text_input('Insert kurt')
 
-    mode = st.number_input('Insert mode',0,1, format="%.4f")
+    mode = st.text_input('Insert mode')
 
-    centroid = st.number_input('Insert centroid',0,1, format="%.4f")
+    centroid = st.text_input('Insert centroid')
 
-    dfrange = st.number_input('Insert dfrange',0,100, format="%.4f")
+    dfrange = st.text_input('Insert dfrange')
 
     result=""
     if st.button("Classify"):
-      result=predict_voice(meanfreq, sd,	median,	IQR, skew,	kurt,	mode,	centroid,	dfrange)
+      result=predict_voice(float(meanfreq), float(sd), float(median),	float(IQR), float(skew),float(kurt),float(mode),float(centroid),float(dfrange))
       st.success('HC Model has predicted {}'.format(result)) 
     if st.button("About"):
       st.header("Developed by Balvinder Singh")
