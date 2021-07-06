@@ -40,23 +40,23 @@ def main():
     st.header("Voice Classification using Hierarichal Clustering Algorithm")
     
 
-    meanfreq = st.number_input('Insert Meanfreq',0,300)
+    meanfreq = st.number_input('Insert Meanfreq',0,1, ,format="%.4f")
 
-    sd = st.number_input('Insert SD',50,200)
+    sd = st.number_input('Insert SD',0,1, ,format="%.4f")
 
-    median =  st.number_input('Insert median',0,100)
+    median =  st.number_input('Insert median',0,1, ,format="%.4f")
 
-    IQR  = st.number_input('Insert IQR',0,300)
+    IQR  = st.number_input('Insert IQR',0,1, ,format="%.4f")
 
-    skew   = st.number_input('Insert skew',0,100)
+    skew   = st.number_input('Insert skew',0,100, ,format="%.4f")
 
-    kurt  = st.number_input('Insert kurt',0,10)
+    kurt  = st.number_input('Insert kurt',0,10, ,format="%.4f")
 
-    mode = st.number_input('Insert mode',0,100)
+    mode = st.number_input('Insert mode',0,1, ,format="%.4f")
 
-    centroid = st.number_input('Insert centroid',0,100)
+    centroid = st.number_input('Insert centroid',0,1, ,format="%.4f")
 
-    dfrange = st.number_input('Insert dfrange',0,100)
+    dfrange = st.number_input('Insert dfrange',0,100, ,format="%.4f")
 
     result=""
     if st.button("Classify"):
