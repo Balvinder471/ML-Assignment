@@ -1,3 +1,5 @@
+# app.py
+
 import streamlit as st 
 from PIL import Image
 import pickle
@@ -6,87 +8,68 @@ import matplotlib.pyplot as plt
 import pandas as pd
 st.set_option('deprecation.showfileUploaderEncoding', False)
 # Load the pickled model
-model = pickle.load(open('model.pkl', 'rb')) 
-dataset= pd.read_csv('Classification Dataset2.csv')
-X = dataset.iloc[:, :-1]
+model = pickle.load(open('hccluster.pkl', 'rb')) 
+dataset= pd.read_csv('clustering dataset 2.csv')
+#handling missing data
+dataset.dropna(inplace=True)
 
-from sklearn.preprocessing import LabelEncoder
-labelencoder_X = LabelEncoder()
-X["Gender"] = labelencoder_X.fit_transform(X["Gender"])
-
-X = X.values
-
-#handling missing data (Replacing missing data with the mean value)  
-from sklearn.impute import SimpleImputer
-imputer = SimpleImputer(missing_values=np.nan, strategy= 'mean', fill_value=None, verbose=0, copy=True  )
-imputer
-#Fitting imputer object to the independent variables x.   
-imputer= imputer.fit(X[:, 2:7])  
-#Replacing missing data with the calculated mean value  
-X[:, 2:7]= imputer.transform(X[:, 2:7]) 
-
-
-from sklearn.preprocessing import StandardScaler
-sc = StandardScaler()
-X = sc.fit_transform(X)
-
-def predict_note_authentication(Gender, Glucose, BP, SkinThickness, Insulin, BMI, PedigreeFunction):
-  output= model.predict(sc.transform([Gender, Glucose, BP, SkinThickness, Insulin, BMI, PedigreeFunction]))
+def predict_voice(meanfreq, sd,	median,	IQR, skew,	kurt,	mode,	centroid,	dfrange):
+  output= model.fit_predict([[0.059781, 0.064241,	0.032027,	0.075122,	12.863462,	274.402906,	0.000000,	0.059781,	0.000000,], [meanfreq, sd,	median,	IQR, skew,	kurt,	mode,	centroid,	dfrange]])
   print("Purchased", output)
-  if output==[1]:
-    prediction="Patient will be infected!!"
+  if output[1]==0:
+    prediction="Female Voice"
   else:
-    prediction="Patient is Safe"
+    prediction="Male Voice"
   print(prediction)
   return prediction
 
 def main():
     
     html_temp = """
-   <div class="" style="background-color:blue;" >
+   <div class="" style="background-color:orange;" >
    <div class="clearfix">           
    <div class="col-md-12">
    <center><p style="font-size:40px;color:white;margin-top:10px;">Poornima Institute of Engineering & Technology</p></center> 
    <center><p style="font-size:30px;color:white;margin-top:10px;">Department of Computer Engineering</p></center> 
-   <center><p style="font-size:25px;color:white;margin-top:10px;"Machine Learning Mid Term 1</p></center> 
+   <center><p style="font-size:25px;color:white;margin-top:10px;"Machine Learning Mid Term 2</p></center> 
    </div>
    </div>
    </div>
    """
     st.markdown(html_temp,unsafe_allow_html=True)
-    st.header("Disease Prediction using Knn Algorithm")
+    st.header("Voice Classification using Hierarichal Clustering Algorithm")
     
-    Gender = st.selectbox(
-    "Gender",
-    ("Male", "Female", "Others")
-    )
 
-    Glucose = st.number_input('Insert Glucose Level',0,300)
+    meanfreq = st.number_input('Insert Meanfreq',0,300)
 
-    BP = st.number_input('Insert BP Level',50,200)
+    sd = st.number_input('Insert SD',50,200)
 
-    Skin =  st.number_input('Insert Skin Thickness',0,100)
+    median =  st.number_input('Insert median',0,100)
 
-    Insulin  = st.number_input('Insert Insulin Level',0,300)
+    IQR  = st.number_input('Insert IQR',0,300)
 
-    BMI   = st.number_input('Insert BMI',0,100)
+    skew   = st.number_input('Insert skew',0,100)
 
-    Pfunc  = st.number_input('Insert Pedigree function',0,10)
+    kurt  = st.number_input('Insert kurt',0,10)
 
-    Age = st.number_input('Insert a Age',0,100)
+    mode = st.number_input('Insert mode',0,100)
+
+    centroid = st.number_input('Insert centroid',0,100)
+
+    dfrange = st.number_input('Insert dfrange',0,100)
 
     result=""
-    if st.button("KNN Prediction"):
-      result=predict_note_authentication(UserID, Gender,Age,EstimatedSalary)
-      st.success('SVM Model has predicted {}'.format(result)) 
+    if st.button("Classify"):
+      result=predict_voice(meanfreq, sd,	median,	IQR, skew,	kurt,	mode,	centroid,	dfrange)
+      st.success('HC Model has predicted {}'.format(result)) 
     if st.button("About"):
-      st.header("Developed by Balvinder")
+      st.header("Developed by Balvinder Singh")
       st.subheader("Student , PIET")
     html_temp = """
     <div class="" style="background-color:orange;" >
     <div class="clearfix">           
     <div class="col-md-12">
-    <center><p style="font-size:20px;color:white;margin-top:10px;">Machine Learning Mid Term 1: KNN Prediction</p></center> 
+    <center><p style="font-size:20px;color:white;margin-top:10px;">Machine Learning Mid Term 2: Hc Voice Classification</p></center> 
     </div>
     </div>
     </div>
