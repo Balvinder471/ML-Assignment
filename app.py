@@ -8,18 +8,18 @@ import matplotlib.pyplot as plt
 import pandas as pd
 st.set_option('deprecation.showfileUploaderEncoding', False)
 # Load the pickled model
-model = pickle.load(open('hccluster.pkl', 'rb')) 
-dataset= pd.read_csv('clustering dataset 2.csv')
+model = pickle.load(open('knnmodel.pkl', 'rb')) 
+dataset= pd.read_csv('Classification Dataset22.csv')
 #handling missing data
 dataset.dropna(inplace=True)
 
-def predict_voice(meanfreq, sd,	median,	IQR, skew,	kurt,	mode,	centroid,	dfrange):
-  output= model.fit_predict([[0.059781, 0.064241,	0.032027,	0.075122,	12.863462,	274.402906,	0.000000,	0.059781,	0.000000,], [meanfreq, sd,	median,	IQR, skew,	kurt,	mode,	centroid,	dfrange]])
-  print("Purchased", output)
+def predict_exit(credit, geogrpahy, gender, age, tenure, balance, hascredit, isactive, salary):
+  output = model.predict(sc.transform([[credit, geogrpahy, gender, age, tenure, balance, hascredit, isactive, salary]]))
+  print("Exited", output)
   if output[1]==0:
-    prediction="Female Voice"
+    prediction="Customer will stay"
   else:
-    prediction="Male Voice"
+    prediction="Customer will exit"
   print(prediction)
   return prediction
 
@@ -31,36 +31,36 @@ def main():
    <div class="col-md-12">
    <center><p style="font-size:40px;color:white;margin-top:10px;">Poornima Institute of Engineering & Technology</p></center> 
    <center><p style="font-size:30px;color:white;margin-top:10px;">Department of Computer Engineering</p></center> 
-   <center><p style="font-size:25px;color:white;margin-top:10px;"Machine Learning Mid Term 2</p></center> 
+   <center><p style="font-size:25px;color:white;margin-top:10px;"Machine Learning End Term</p></center> 
    </div>
    </div>
    </div>
    """
     st.markdown(html_temp,unsafe_allow_html=True)
-    st.header("Voice Classification using Hierarichal Clustering Algorithm")
+    st.header("Customer exit prediction using KNN Algorithm")
     
 
-    meanfreq = st.text_input('Insert Meanfreq')
+    credit = st.number_input('Insert Credit Score')
 
-    sd = st.text_input('Insert SD')
+    geography = st.number_input('Insert Geography France:0 Spain:1')
 
-    median =  st.text_input('Insert median')
+    gender =  st.number_input('Insert Gender Male:0 Female:1')
 
-    IQR  = st.text_input('Insert IQR')
+    age  = st.number_input('Insert Age')
 
-    skew   = st.text_input('Insert skew')
+    tenure   = st.number_input('Insert Tenure')
 
-    kurt  = st.text_input('Insert kurt')
+    balance  = st.number_input('Insert Balance')
 
-    mode = st.text_input('Insert mode')
+    hascredit = st.number_input('Has:1 Doesnot:0')
 
-    centroid = st.text_input('Insert centroid')
+    isactive = st.number_input('Yes:1 Not:0')
 
-    dfrange = st.text_input('Insert dfrange')
+    salary = st.number_input('Insert Salary')
 
     result=""
     if st.button("Classify"):
-      result=predict_voice(float(meanfreq), float(sd), float(median),	float(IQR), float(skew),float(kurt),float(mode),float(centroid),float(dfrange))
+      result=predict_exit(credit, geogrpahy, gender, age, tenure, balance, hascredit, isactive, salary)
       st.success('HC Model has predicted {}'.format(result)) 
     if st.button("About"):
       st.header("Developed by Balvinder Singh")
@@ -69,7 +69,7 @@ def main():
     <div class="" style="background-color:orange;" >
     <div class="clearfix">           
     <div class="col-md-12">
-    <center><p style="font-size:20px;color:white;margin-top:10px;">Machine Learning Mid Term 2: Hc Voice Classification</p></center> 
+    <center><p style="font-size:20px;color:white;margin-top:10px;">Machine Learning End Term : KNN customer exit prediction</p></center> 
     </div>
     </div>
     </div>
