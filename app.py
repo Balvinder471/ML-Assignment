@@ -25,7 +25,7 @@ dataset.dropna(inplace=True)
 def predict_exit(credit, geogrpahy, gender, age, tenure, balance, hascredit, isactive, salary):
   output = model.predict(sc.transform([[credit, geogrpahy, gender, age, tenure, balance, hascredit, isactive, salary]]))
   print("Exited", output)
-  if output[1]==0:
+  if output==0:
     prediction="Customer will stay"
   else:
     prediction="Customer will exit"
