@@ -10,6 +10,15 @@ st.set_option('deprecation.showfileUploaderEncoding', False)
 # Load the pickled model
 model = pickle.load(open('knnmodel.pkl', 'rb')) 
 dataset= pd.read_csv('Classification Dataset22.csv')
+X = dataset.iloc[:, :-1].values
+from sklearn.preprocessing import LabelEncoder  
+label_encoder_x= LabelEncoder()  
+X[:, 2]= label_encoder_x.fit_transform(X[:, 2])
+X[:, 1]= label_encoder_x.fit_transform(X[:, 1])
+
+from sklearn.preprocessing import StandardScaler
+sc = StandardScaler()
+X = sc.fit_transform(X)
 #handling missing data
 dataset.dropna(inplace=True)
 
