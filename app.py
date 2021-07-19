@@ -52,15 +52,15 @@ def main():
 
     balance  = st.number_input('Insert Balance')
 
-    hascredit = st.number_input('Has:1 Doesnot:0')
+    hascredit = st.number_input('Credit Card Has:1 Doesnot:0')
 
-    isactive = st.number_input('Yes:1 Not:0')
+    isactive = st.number_input('User Active? Yes:1 Not:0')
 
     salary = st.number_input('Insert Salary')
 
     result=""
     if st.button("Classify"):
-      result=predict_exit(credit, geogrpahy, gender, age, tenure, balance, hascredit, isactive, salary)
+      result=predict_exit(credit, geography, gender, age, tenure, balance, hascredit, isactive, salary)
       st.success('HC Model has predicted {}'.format(result)) 
     if st.button("About"):
       st.header("Developed by Balvinder Singh")
